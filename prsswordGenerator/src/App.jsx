@@ -1,4 +1,6 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
+import toast from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import "./App.css";
 
 function App() {
@@ -7,8 +9,10 @@ function App() {
   const [cahrAllow, setCahrAllow] = useState(false);
   const [password, setPassword] = useState("");
 
+  // useRef Hook
+  const passwordRef = useRef(null);
+
   const passwordGenater = useCallback(() => {
-    
     let pass = "";
     let str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     if (numberAllow) {
@@ -20,12 +24,17 @@ function App() {
 
     for (let i = 1; i <= lenght; i++) {
       let char = Math.floor(Math.random() * str.length + 1);
-      
+
       pass += str.charAt(char);
     }
     setPassword(pass);
-        
   }, [lenght, numberAllow, cahrAllow, setPassword]);
+
+  const copyPasswordToClipboard = useCallback(async () => {
+     await navigator.clipboard.writeText(password);
+      toast.success("Password copied to clipboard");
+  }, [password]);
+
   useEffect(() => {
     passwordGenater();
   }, [lenght, numberAllow, cahrAllow, setPassword, passwordGenater]);
@@ -39,9 +48,15 @@ function App() {
             value={password}
             placeholder="Password"
             readOnly
-            className="outline-none w-full py-1 px-3"
+            className="outline-none w-full py-1 px-3 "
+            ref={passwordRef} 
           />
-          <button className="outline-none bg-amber-950 text-white px-3 py-0.5 stroke-0">
+          <button
+            onClick={copyPasswordToClipboard}
+
+            className="outline-none bg-amber-950 cursor-pointer
+           text-white px-3 py-0.5 stroke-0"
+          >
             Copy
           </button>
         </div>
@@ -51,7 +66,6 @@ function App() {
               type="range"
               min={6}
               max={50}
-              s
               value={lenght}
               className="cursor-pointer "
               onChange={(e) => {
@@ -62,9 +76,10 @@ function App() {
           </div>
           <div className="flex items-center gap-x-1">
             <label>Number</label>
-            <input type="checkbox" 
-            className="cursor-pointer"
-            onClick={(e) => {
+            <input
+              type="checkbox"
+              className="cursor-pointer"
+              onClick={(e) => {
                 setNumberAllow(e.target.checked);
               }}
             />
@@ -81,6 +96,7 @@ function App() {
           </div>
         </div>
       </div>
+      <Toaster position="top-center" />
     </>
   );
 }
