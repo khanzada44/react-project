@@ -1,5 +1,5 @@
 import React from 'react'
-import { link, NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
 
 export default function Header() {
     return (
