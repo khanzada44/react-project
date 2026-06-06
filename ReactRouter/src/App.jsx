@@ -1,16 +1,9 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
-
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-        <div>Hello</div>
-        <div>Hello</div>
+        <h1 className='bg-gray-600 p-4 text-black'>React Routers</h1>
     </>
   )
 }
