@@ -7,6 +7,8 @@ const UserContexProvider = ({ children }) => {
     <UserContext.Provider vaule={{ user, setUser }}>
       {children}
     </UserContext.Provider>
+
+    
   );
 };
 
